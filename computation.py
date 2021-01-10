@@ -37,9 +37,9 @@ def computation(filename:str, encoding:str, input_folder:str, output_folder:str)
 
     del df
     logger.info("Save dataframe")
-    df_city.to_csv(output_folder)
+    df_city.to_csv(output_folder + "city/")
     del df_city
-    df_region.to_csv(output_folder)
+    df_region.to_csv(output_folder + "regione/")
     del df_region
     logger.info("Completed")
 
