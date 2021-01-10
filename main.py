@@ -1,56 +1,34 @@
 import dask.dataframe as dd
 import logging
 from dask.distributed import Client, LocalCluster
+from computation import computation
+from dask_yarn import YarnCluster
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def main():
-    cluster = LocalCluster()
+def local_run():
+    cluster = LocalCluster(host="cluster-dask-m", environment="venv.tat.gz")
     client = Client(cluster)  # Connect to distributed cluster and override default
 
-    filename = './data/comuni*.csv'
+    filename = '*.part'
     encoding = "cp1252"
-    logger.info("Load CSV file {} with encoding {}".format(filename, encoding))
-    df = dd.read_csv(filename, encoding=encoding)
-    df.to_csv("./data/")
+    input_folder = "./data/31Ottobre/"
+    output_folder = "./output/"
 
-    logger.info("Filter out all unavailable values".format(filename, encoding))
-    df = df[df["T_20"] != "n.d."]
-    logger.info("cast columns".format(filename, encoding))
-    df["T_20"] = df["T_20"].astype(int)
-    df["T_19"] = df["T_19"].astype(int)
-    df["T_18"] = df["T_18"].astype(int)
-    df["T_17"] = df["T_17"].astype(int)
+    computation(filename, encoding, input_folder, output_folder)
 
-    logger.info("Calculate last 3 yrs mean".format(filename, encoding))
-    df["T19_T18_T17_mean"] = (df["T_19"] + df["T_18"] + df["T_17"]) / 3
+def data_proc_run():
+    cluster = YarnCluster(host="cluster-dask-m", environment="venv.tat.gz")
+    client = Client(cluster)  # Connect to distributed cluster and override default
 
-    logger.info("Calculate delta with 2020".format(filename, encoding))
-    df["delta"] = df["T_20"] - df["T19_T18_T17_mean"]
+    filename = '*.part'
+    encoding = "cp1252"
+    input_folder = "/home/giuseppemento/dask_covid_istat/data/31Ottobre/"
+    output_folder = "./output/"
 
-    logger.info("Start processing".format(filename, encoding))
-
-    # prepare dataset for cities
-    df_city = df.groupby("NOME_COMUNE").agg({"delta": "sum"}).reset_index().set_index("delta").map_partitions(
-        lambda x: x.sort_index(ascending=False))
-    df_city.compute()
-    logger.info("Process city completed".format(filename, encoding))
-
-    # prepare dataset for region
-    df_region = df.groupby("NOME_REGIONE").agg({"delta": "sum"}).reset_index().set_index("delta").map_partitions(
-        lambda x: x.sort_index(ascending=False))
-    df_region.compute()
-    logger.info("Process region completed".format(filename, encoding))
-
-    del df
-    logger.info("Save dataframe")
-    df_city.to_csv("./data/city/")
-    del df_city
-    df_region.to_csv("./data/region/")
-    del df_region
-
-    logger.info("Completed")
+    computation(filename, encoding, input_folder, output_folder)
 
 if __name__ == "__main__":
-    main()
+    # local_run()
+    data_proc_run()
