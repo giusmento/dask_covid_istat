@@ -1,5 +1,5 @@
 venv
 .idea
 dask-worker-*
-data/city*
-data/region*
+output/city*
+output/region*
