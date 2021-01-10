@@ -3,7 +3,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def computation(filename:str, encoding:str, input_folder:str, output_dolfer:str):
+def computation(filename:str, encoding:str, input_folder:str, output_folder:str):
     logger.info("Load CSV file {}{} with encoding {}".format(input_folder, filename, encoding))
     df = dd.read_csv( input_folder + filename, encoding=encoding)
 
@@ -37,9 +37,9 @@ def computation(filename:str, encoding:str, input_folder:str, output_dolfer:str)
 
     del df
     logger.info("Save dataframe")
-    df_city.to_csv(output_dolfer)
+    df_city.to_csv(output_folder)
     del df_city
-    df_region.to_csv(output_dolfer)
+    df_region.to_csv(output_folder)
     del df_region
     logger.info("Completed")
 

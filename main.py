@@ -21,6 +21,7 @@ def local_run():
 
 def data_proc_run():
     cluster = YarnCluster()
+    logger.info("Client UI available at {}".format(cluster.application_client.ui.address))
     client = Client(cluster)  # Connect to distributed cluster and override default
 
     filename = '*.part'
@@ -28,7 +29,7 @@ def data_proc_run():
     # input_folder = "home/giuseppemento/dask_covid_istat/data/31Ottobre/"
     input_folder = os.environ.get('INPUT_FOLDER')
     # output_folder = "./output/"
-    output_folder = os.environ.get('OUPUT_FOLDER')
+    output_folder = os.environ.get('OUTPUT_FOLDER')
 
     computation(filename, encoding, input_folder, output_folder)
 
