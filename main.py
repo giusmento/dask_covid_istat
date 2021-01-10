@@ -24,7 +24,7 @@ def data_proc_run():
 
     filename = '*.part'
     encoding = "cp1252"
-    input_folder = "/home/giuseppemento/dask_covid_istat/data/31Ottobre/"
+    input_folder = "home/giuseppemento/dask_covid_istat/data/31Ottobre/"
     output_folder = "./output/"
 
     computation(filename, encoding, input_folder, output_folder)
