@@ -6,8 +6,10 @@ entry_point="main.py"
 
 echo "Start script"
 
-rm -r ${main_folder}
-git clone ${git_repository}
+#rm -r ${main_folder}
+#git clone ${git_repository}
 pwd
+source /etc/profile
 #pip install -r requirements.txt
-bash ${main_folder}/run_job.sh
+#bash ${main_folder}/run_job.sh
+nohup python3 ${main_folder}/${entry_point}

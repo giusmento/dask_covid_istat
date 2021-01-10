@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def local_run():
-    cluster = LocalCluster(host="cluster-dask-m", environment="venv.tat.gz")
+    cluster = LocalCluster()
     client = Client(cluster)  # Connect to distributed cluster and override default
 
     filename = '*.part'
@@ -19,7 +19,7 @@ def local_run():
     computation(filename, encoding, input_folder, output_folder)
 
 def data_proc_run():
-    cluster = YarnCluster(environment="venv.tar.gz")
+    cluster = YarnCluster()
     logger.info("Client UI available at {}".format(cluster.application_client.ui.address))
     client = Client(cluster)  # Connect to distributed cluster and override default
 
