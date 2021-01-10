@@ -3,6 +3,7 @@ import logging
 from dask.distributed import Client, LocalCluster
 from computation import computation
 from dask_yarn import YarnCluster
+import os
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -24,8 +25,10 @@ def data_proc_run():
 
     filename = '*.part'
     encoding = "cp1252"
-    input_folder = "home/giuseppemento/dask_covid_istat/data/31Ottobre/"
-    output_folder = "./output/"
+    # input_folder = "home/giuseppemento/dask_covid_istat/data/31Ottobre/"
+    input_folder = os.environ.get('INPUT_FOLDER')
+    # output_folder = "./output/"
+    output_folder = os.environ.get('OUPUT_FOLDER')
 
     computation(filename, encoding, input_folder, output_folder)
 
