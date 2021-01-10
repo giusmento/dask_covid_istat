@@ -6,8 +6,8 @@ entry_point="main.py"
 
 echo "Start script"
 
-#rm -r ${main_folder}
-#git clone ${git_repository}
+rm -r ${main_folder}
+git clone ${git_repository}
 pwd
 #pip install -r requirements.txt
 bash ${main_folder}/run_job.sh
