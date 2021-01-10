@@ -28,6 +28,12 @@ gcloud compute ssh ${CLUSTER_NAME}-m \
   --project=${PROJECT} \
   --zone=${ZONE} -- -D 1080 -N
 ````
+or
+
+````
+gcloud compute ssh ${CLUSTER_NAME}-m --project=${PROJECT} -- -L 8088:${CLUSTER_NAME}-m:8088 -N -n
+````
+
 
 ````
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
@@ -39,7 +45,7 @@ Open
 connect ssh
 
 ````
-gcloud compute ssh ${CLUSTER_NAME}-m --zone ${ZONE}-b
+gcloud compute ssh ${CLUSTER_NAME}-m --zone ${ZONE}
 ````
 
 RUN JOB
@@ -47,3 +53,10 @@ RUN JOB
 export INPUT_FOLDER=gs://gm_bucket_data/covid_data/; export OUTPUT_FOLDER=gs://gm_bucket_data/covid_data/output/
 
 git clone 
+
+
+DELETE CLUSTER DATA PROC
+
+````
+gcloud dataproc clusters delete ${CLUSTER_NAME} --region ${REGION}
+````

@@ -1,4 +1,3 @@
-import dask.dataframe as dd
 import logging
 from dask.distributed import Client, LocalCluster
 from computation import computation
@@ -20,7 +19,7 @@ def local_run():
     computation(filename, encoding, input_folder, output_folder)
 
 def data_proc_run():
-    cluster = YarnCluster()
+    cluster = YarnCluster(environment="venv.tar.gz")
     logger.info("Client UI available at {}".format(cluster.application_client.ui.address))
     client = Client(cluster)  # Connect to distributed cluster and override default
 
