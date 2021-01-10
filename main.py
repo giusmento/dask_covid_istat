@@ -19,7 +19,7 @@ def local_run():
     computation(filename, encoding, input_folder, output_folder)
 
 def data_proc_run():
-    cluster = YarnCluster(host="cluster-dask-m", environment="venv.tat.gz")
+    cluster = YarnCluster()
     client = Client(cluster)  # Connect to distributed cluster and override default
 
     filename = '*.part'
